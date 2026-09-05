@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>MedLens — Demo</title>
+    <style>body{font-family:Arial,Helvetica,sans-serif;padding:20px;max-width:900px;margin:auto}label{display:block;margin-top:10px}</style>
+  </head>
+  <body>
+    <h1>MedLens — Demo</h1>
+    <p>Provide a simple API token using `Authorization: Bearer &lt;token&gt;` header. Default token: <strong>dev-token</strong>.</p>
+
+    <h2>Create Patient</h2>
+    <label>Name <input id="pname"></label>
+    <label>Age <input id="page" type="number"></label>
+    <label>Sex <input id="psex"></label>
+    <button id="create">Create</button>
+    <div id="patient-result"></div>
+
+    <h2>Upload Report (text)</h2>
+    <label>Patient ID <input id="pid"></label>
+    <label>Report Text</label>
+    <textarea id="rtext" rows="10" style="width:100%"></textarea>
+    <button id="upload">Upload</button>
+    <pre id="structured"></pre>
+
+    <script>
+      const token = 'dev-token'
+      document.getElementById('create').onclick = async () => {
+        const name = document.getElementById('pname').value
+        const age = document.getElementById('page').value
+        const sex = document.getElementById('psex').value
+        const res = await fetch('/api/patients', {method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+token}, body: JSON.stringify({name,age,sex})})
+        const j = await res.json(); document.getElementById('patient-result').innerText = JSON.stringify(j)
+      }
+      document.getElementById('upload').onclick = async () => {
+        const pid = document.getElementById('pid').value
+        const text = document.getElementById('rtext').value
+        const fd = new FormData(); fd.append('text', text)
+        const res = await fetch('/api/patients/'+pid+'/reports', {method:'POST', headers:{'Authorization':'Bearer '+token}, body: fd})
+        const j = await res.json(); document.getElementById('structured').innerText = JSON.stringify(j, null, 2)
+      }
+    </script>
+  </body>
+</html>
