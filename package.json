@@ -1,0 +1,9 @@
+{
+  "name": "medlens-monorepo",
+  "private": true,
+  "scripts": {
+    "dev:client": "cd client && npm run dev",
+    "build:client": "cd client && npm run build",
+    "deploy:vercel": "npx vercel --prod --cwd client --confirm"
+  }
+}

@@ -1,0 +1,12 @@
+server/
+static/
+app.py
+models.py
+report_parser.py
+requirements.txt
+venv/
+.venv/
+Dockerfile
+README_FULL.md
+.env*
+**/*.log
